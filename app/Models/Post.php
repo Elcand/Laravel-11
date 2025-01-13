@@ -5,11 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Builder;
 
 class Post extends Model
 {
     use HasFactory;
     protected $fillable = ['title', 'author', 'slug', 'body'];
+
+    protected $with = ['author', 'category'];
+
 
     public function author(): BelongsTo
     {
@@ -19,5 +23,10 @@ class Post extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function scopeFilter(Builder $query): void
+    {
+        $query->where('title', 'like', '%' . request('search') . '%');
     }
 }
