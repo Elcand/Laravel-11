@@ -2,6 +2,7 @@
 
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
 use App\Models\Post;
 use App\Models\User;
 
@@ -36,3 +37,6 @@ Route::get('/categories/{category:slug}', function (Category $category) {
 Route::get('/contact', function () {
     return view('contact', ['title' => 'Contact']);
 });
+
+
+Route::resource('/products', \App\Http\Controllers\ProductController::class);
